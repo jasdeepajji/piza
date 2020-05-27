@@ -1,3 +1,5 @@
+import { sizes } from "../constants";
+
 export const processCart = (data) =>
   data.reduce((arr, item) => {
     const index = arr.findIndex(

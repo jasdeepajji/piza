@@ -53,6 +53,11 @@ export default function Header() {
                 Cart
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to="/order">
+                Order
+              </NavLink>
+            </NavItem>
             {!user.islogin && (
               <NavItem>
                 <NavLink

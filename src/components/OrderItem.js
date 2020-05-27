@@ -11,7 +11,7 @@ import {
 import { Card, CardImg, CardSubtitle, Flex } from "../style";
 
 
-export default function CartItem() {
+export default function OrderItem() {
   return (
     <Card className="shadow">
       <CardImg

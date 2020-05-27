@@ -8,6 +8,7 @@ import {
   FormGroup,
   Input,
   Button,
+  Label,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { processAmount, calculateTax } from "../../utils/common";
@@ -21,21 +22,23 @@ export default function PlaceOrder({ modal, toggle }) {
   const totalAmount = processAmount(cart, sizes);
   const taxAmount = calculateTax(totalAmount, taxPercent).toFixed(2);
   const GrandTotal = parseFloat(totalAmount) + parseFloat(taxAmount);
-  const [type, setType] = useState("card");
+  const [paymentType, setPaymentType] = useState("card");
   const [orderId] = useState(Date.now());
 
   const submit = () => {
-    dispatch(confirmOrder({
-      orderId,
-      type,
-      GrandTotal,
-      totalAmount,
-      address: user.address,
-      deliveryCost,
-      taxPercent,
-    }));
+    dispatch(
+      confirmOrder({
+        orderId,
+        type: paymentType,
+        GrandTotal,
+        totalAmount,
+        address: user.address,
+        deliveryCost,
+        taxPercent,
+      })
+    );
     toggle();
-    toast.success('Order Placed');
+    toast.success("Order Placed");
   };
 
   return (
@@ -61,20 +64,45 @@ export default function PlaceOrder({ modal, toggle }) {
           </ListGroupItem>
           <ListGroupItem className="d-flex">
             <b className="fs-14 m-0 mr-3">Payment Method:</b>
-            <FormGroup>
-              <Input
-                type="select"
-                name="select"
-                id="size"
-                className="fs-12"
-                selected={type}
-                onChange={(e) => setType(e.target.value)}
-              >
-                <option value="card">Card</option>
-                <option value="cash">Cash on Delivery</option>
-              </Input>
+            <FormGroup check className="mr-3">
+              <Label check>
+                <Input
+                  type="radio"
+                  name="paymentType"
+                  value="card"
+                  checked={paymentType === "card"}
+                  onChange={(e) => setPaymentType(e.target.value)}
+                />
+                Card
+              </Label>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="radio"
+                  name="paymentType"
+                  value="cash"
+                  checked={paymentType === "cash"}
+                  onChange={(e) => setPaymentType(e.target.value)}
+                />
+                Cash
+              </Label>
             </FormGroup>
           </ListGroupItem>
+          {paymentType === "card" && (
+            <ListGroupItem>
+              <FormGroup>
+                <Label for="cardNumber">
+                  <b className="fs-14 m-0 mr-3">Card Number</b>
+                </Label>
+                <Input
+                  type="number"
+                  id="cardNumber"
+                  placeholder="XXXXXXXXXXXXXX"
+                />
+              </FormGroup>
+            </ListGroupItem>
+          )}
         </ListGroup>
         <Button color="primary" block onClick={submit}>
           Confirm Order

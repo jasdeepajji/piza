@@ -21,7 +21,7 @@ function CartReview({ screen = "lg", showAction = true }) {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state);
   const data = processCart(_.cloneDeep(cart));
-  const totalAmount = processAmount(data, sizes);
+  const totalAmount = processAmount(cart, sizes);
 
   const addItem = ({
     categoryId,
@@ -108,7 +108,7 @@ function CartReview({ screen = "lg", showAction = true }) {
                       +
                     </Button>
                   </ButtonGroup>
-                  <b className="fs-14">﹩{size ? size.price : 0}</b>
+                  <b className="fs-14">﹩{size ? (size.price * items).toFixed(2) : 0}</b>
                 </Flex>
               </ListGroupItem>
             );

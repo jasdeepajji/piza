@@ -5,6 +5,7 @@ import { PrivateLayout, PublicLayout } from "../components/Layout";
 import Login from "../containers/Login";
 import Menu from "../containers/Menu";
 import Cart from "../containers/Cart";
+import Order from "../containers/Order";
 
 export default function Router(store) {
   return (
@@ -27,6 +28,13 @@ export default function Router(store) {
         path="/cart"
         exact
         Page={Cart}
+        Layout={PrivateLayout}
+        store={store}
+      />
+      <AppRoute
+        path="/order"
+        exact
+        Page={Order}
         Layout={PrivateLayout}
         store={store}
       />
